@@ -8,7 +8,7 @@ import { useToast } from "@/components/ui/use-toast"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-
+import '../globals.css'
 export default function LoginPage() {
   const router = useRouter()
   const { toast } = useToast()

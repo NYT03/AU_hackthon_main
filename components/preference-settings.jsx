@@ -1,17 +1,19 @@
 "use client"
 
 import { Badge } from "@/components/ui/badge"
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
 import { useToast } from "@/hooks/use-toast"
+import axios from 'axios'
+import { useState } from "react"
 
 export default function SecuritySettings() {
   const { toast } = useToast()
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false)
+  const [tradingPreference, setTradingPreference] = useState('')
 
   const handlePasswordChange = (e) => {
     e.preventDefault()
@@ -29,6 +31,30 @@ export default function SecuritySettings() {
         ? "Two-factor authentication has been disabled for your account."
         : "Two-factor authentication has been enabled for your account.",
     })
+  }
+
+  const handlePreferenceChange = async (e) => {
+    e.preventDefault()
+
+    try {
+      // Send updated preferences to the server
+      const response = await axios.post('/api/update-preferences', {
+        tradingPreference,
+      })
+
+      if (response.status === 200) {
+        toast({
+          title: "Preferences updated",
+          description: "Your preferences have been updated successfully.",
+        })
+      }
+    } catch (error) {
+      console.error("Error updating preferences:", error)
+      toast({
+        title: "Error",
+        description: "There was an error updating your preferences.",
+      })
+    }
   }
 
   return (
@@ -123,6 +149,25 @@ export default function SecuritySettings() {
             </Button>
           </div>
         </div>
+      </div>
+
+      <Separator />
+
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium">Trading Preferences</h3>
+        <form onSubmit={handlePreferenceChange} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="trading-preference">Trading Preference</Label>
+            <Input
+              id="trading-preference"
+              type="text"
+              value={tradingPreference}
+              onChange={(e) => setTradingPreference(e.target.value)}
+              placeholder="Enter your trading preference"
+            />
+          </div>
+          <Button type="submit">Update Preferences</Button>
+        </form>
       </div>
     </div>
   )

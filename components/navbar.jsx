@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 import { BarChart3, Home, Menu, MessageSquare, User } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 const navItems = [
   {
@@ -34,6 +34,17 @@ const navItems = [
 export default function Navbar() {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [profilePicture, setProfilePicture] = useState(null) // Placeholder for profile picture
+
+  useEffect(() => {
+    const sessionKey = localStorage.getItem('sessionKey')
+    if (sessionKey) {
+      setIsLoggedIn(true)
+      // Optionally, fetch user profile data to get the profile picture
+      // Example: setProfilePicture(fetchedProfilePicture)
+    }
+  }, [])
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
@@ -96,12 +107,18 @@ export default function Navbar() {
           ))}
         </nav>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" asChild>
-            <Link href="/login">Sign In</Link>
-          </Button>
-          <Button size="sm" asChild>
-            <Link href="/signup">Sign Up</Link>
-          </Button>
+          {isLoggedIn ? (
+            <img src={profilePicture || "/default-profile.png"} alt="Profile" className="h-8 w-8 rounded-full" />
+          ) : (
+            <>
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/login">Sign In</Link>
+              </Button>
+              <Button size="sm" asChild>
+                <Link href="/signup">Sign Up</Link>
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </header>

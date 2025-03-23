@@ -1,50 +1,42 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { ArrowDown, ArrowUp } from "lucide-react"
+"use client"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import axios from 'axios';
+import { ArrowDown, ArrowUp } from "lucide-react";
+import { useEffect, useState } from 'react';
 
-const watchlistItems = [
-  {
-    id: 1,
-    symbol: "AAPL",
-    name: "Apple Inc.",
-    price: 187.32,
-    change: 1.25,
-    changePercent: 0.67,
-  },
-  {
-    id: 2,
-    symbol: "MSFT",
-    name: "Microsoft Corp.",
-    price: 402.56,
-    change: -3.44,
-    changePercent: -0.85,
-  },
-  {
-    id: 3,
-    symbol: "GOOGL",
-    name: "Alphabet Inc.",
-    price: 142.17,
-    change: 0.87,
-    changePercent: 0.62,
-  },
-  {
-    id: 4,
-    symbol: "AMZN",
-    name: "Amazon.com Inc.",
-    price: 178.35,
-    change: -1.23,
-    changePercent: -0.68,
-  },
-  {
-    id: 5,
-    symbol: "TSLA",
-    name: "Tesla Inc.",
-    price: 193.57,
-    change: 5.32,
-    changePercent: 2.83,
-  },
-]
+const watchlistSymbols = ["AAPL", "MSFT", "GOOGL", "AMZN", "TSLA"]; // Define your watchlist symbols
 
 export default function Watchlist() {
+  const [watchlistItems, setWatchlistItems] = useState([]);
+
+  useEffect(() => {
+    const fetchWatchlistData = async () => {
+      const items = await Promise.all(
+        watchlistSymbols.map(async (symbol) => {
+          try {
+            const response = await axios.get(`http://localhost:5000/api/stock/${symbol}`);
+            return {
+              id: symbol, // Use symbol as id for simplicity
+              symbol: response.data.symbol,
+              name: response.data.longName || response.data.shortName, // Adjust based on the API response
+              price: response.data.regularMarketPrice,
+              change: response.data.regularMarketChange,
+              changePercent: response.data.regularMarketChangePercent,
+            };
+          } catch (error) {
+            console.error(`Error fetching data for ${symbol}:`, error);
+            return null; // Return null for failed fetches
+          }
+        })
+      );
+
+      // Filter out any null items (failed fetches)
+      setWatchlistItems(items.filter(item => item !== null));
+    };
+
+    fetchWatchlistData();
+  }, []);
+
   return (
     <Table>
       <TableHeader>
@@ -60,7 +52,7 @@ export default function Watchlist() {
           <TableRow key={item.id}>
             <TableCell className="font-medium">{item.symbol}</TableCell>
             <TableCell className="hidden md:table-cell">{item.name}</TableCell>
-            <TableCell className="text-right">${item.price.toFixed(2)}</TableCell>
+            <TableCell className="text-right">${item.price ? item.price.toFixed(2) : 'N/A'}</TableCell>
             <TableCell className="text-right">
               <div className="flex items-center justify-end gap-1">
                 {item.change > 0 ? (

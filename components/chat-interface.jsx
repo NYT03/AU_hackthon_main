@@ -33,7 +33,7 @@ export default function ChatInterface() {
       content: input,
       timestamp: new Date()
     }
-    console.log(userMessage)
+    console.log(userMessage.content)
     setMessages((prev) => [...prev, userMessage])
     
     // Clear input and set loading state
@@ -42,13 +42,13 @@ export default function ChatInterface() {
 
     try {
       // Make API call to Agnetic endpoint using axios
-      const response = await axios.post("https://agnetic-retail-investor-assistant.onrender.com/chat", {
-        prompt: JSON.stringify(userMessage.content),
-      }, {
-        headers: {
-          "Content-Type": "application/json",
+      const response = await axios.post(
+        "http://localhost:5000/api/chat",
+        { prompt: userMessage.content },
+        {
+          headers: { "Content-Type": "application/json" },
         }
-      })
+      );
 
       const data = response.data
       
@@ -65,7 +65,7 @@ export default function ChatInterface() {
       ])
     } 
     catch (error) {
-      console.error("Error calling Agnetic API:", error.response ? error.response.data : error.message)
+      console.log("Error calling Agnetic API:", error.response ? error.response.data : error.message)
       setMessages((prev) => [
         ...prev,
         { 

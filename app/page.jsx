@@ -3,7 +3,7 @@ import NewsSection from "@/components/news-section"
 import StockChart from "@/components/stock-chart"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Watchlist from "@/components/watchlist"
-
+const { createProxyMiddleware } = require('http-proxy-middleware');
 export default function Home() {
   return (
     <div className="space-y-6">

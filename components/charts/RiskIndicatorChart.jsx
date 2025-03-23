@@ -25,8 +25,8 @@ export default function RiskIndicatorChart({ riskLevel }) {
         
         // Short timeout for smooth transition
         const timer = setTimeout(() => {
-          // Destroy existing chart
-          if (chartInstance) {
+          // Destroy existing chart if it's a valid instance
+          if (chartInstance && typeof chartInstance.destroy === 'function') {
             chartInstance.destroy();
           }
           
@@ -45,8 +45,13 @@ export default function RiskIndicatorChart({ riskLevel }) {
             color = 'rgba(183, 28, 28, 0.8)';  // dark red
           }
           
-          // Create a doughnut chart as a gauge alternative
-          const ctx = chartRef.current.getContext('2d');
+          // Check if chartRef.current is defined before accessing getContext
+          const ctx = chartRef.current ? chartRef.current.getContext('2d') : null;
+          if (!ctx) {
+            console.error("Canvas context is not available.");
+            return;
+          }
+
           const newChartInstance = new Chart(ctx, {
             type: 'doughnut',
             data: {
@@ -122,7 +127,7 @@ export default function RiskIndicatorChart({ riskLevel }) {
     
     // Cleanup
     return () => {
-      if (chartInstance) {
+      if (chartInstance && typeof chartInstance.destroy === 'function') {
         chartInstance.destroy();
       }
       

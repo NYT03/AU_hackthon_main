@@ -1,10 +1,12 @@
-"use client"
+"use client";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import axios from 'axios';
+import axios from "axios";
 import { AlertTriangle, ArrowRight, BarChart3, TrendingUp } from "lucide-react";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+
+const userId = 7; // Define the user_id variable here
 
 const recommendations = [
   {
@@ -46,51 +48,53 @@ const recommendations = [
 ];
 
 export default function PortfolioRecommendation() {
-  const [userId, setUserId] = useState('');
-  const [investmentInsights, setInvestmentInsights] = useState('');
-  const [taxInsights, setTaxInsights] = useState('');
+  const [investmentInsights, setInvestmentInsights] = useState("");
+  const [taxInsights, setTaxInsights] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchInsights = async () => {
       try {
-        const response = await axios.post('https://agnetic-retail-investor-assistant.onrender.com/get_investor_insights', {
-          user_id: userId
-        });
-
-        const data = response.data;
-        setInvestmentInsights(data.investment_insights);
-        setTaxInsights(data.tax_insights);
+        const response = await axios.post(
+          "http://localhost:5000/api/get_investor_insights",
+          { user_id: userId },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: false,
+          }
+        );
+        console.log(response)
+        setInvestmentInsights(response.data.data.investment_insights);
+        setTaxInsights(response.data.data.tax_insights);
       } catch (error) {
-        console.error('Error fetching insights:', error);
+
+        console.log("Error fetching insights:", error);
+        console.error("Error fetching insights:", error);
+        setError("Failed to fetch insights. CORS issue detected.");
       }
     };
 
     if (userId) {
       fetchInsights();
     }
-  }, [userId]);
+  }, []);
 
   return (
     <div className="space-y-6">
       <div className="bg-muted rounded-lg p-4">
-        <h3 className="text-lg font-medium mb-2">User Insights</h3>
-        <input
-          type="text"
-          placeholder="Enter User ID"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-          className="border p-2 rounded w-full"
-        />
+        <h3 className="text-lg font-medium mb-2">Investment Insights</h3>
+        {error ? (
+          <p className="text-red-500 text-sm">{error}</p>
+        ) : (
+          <>
+            <p className="text-sm text-muted-foreground">{investmentInsights}</p>
+            <h3 className="text-lg font-medium mt-4 mb-2">Tax Insights</h3>
+            <p className="text-sm text-muted-foreground">{taxInsights}</p>
+          </>
+        )}
       </div>
-
-      {investmentInsights && taxInsights && (
-        <div className="bg-muted rounded-lg p-4">
-          <h3 className="text-lg font-medium mb-2">Investment Insights</h3>
-          <p className="text-sm text-muted-foreground">{investmentInsights}</p>
-          <h3 className="text-lg font-medium mt-4 mb-2">Tax Insights</h3>
-          <p className="text-sm text-muted-foreground">{taxInsights}</p>
-        </div>
-      )}
 
       <div className="bg-muted rounded-lg p-4">
         <h3 className="text-lg font-medium mb-2">Recommendation Summary</h3>
