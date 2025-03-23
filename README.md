@@ -36,6 +36,8 @@ Start the development server:
 npm run dev
 ```
 
+Note: This project uses JSX files rather than TSX files.
+
 To build the project for production:
 ```sh
 npm run build

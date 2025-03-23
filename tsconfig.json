@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/chatbot/page.jsx", "app/login/page.jsx", "app/portfolio-analysis/page.jsx", "app/profile/page.jsx", "app/signup/page.jsx", "app/page.jsx", "app/layout.jsx", "components/badge.jsx", "components/chat-interface.jsx", "components/market-indices.jsx", "components/navbar.jsx", "components/portfolio-recommendation.jsx", "components/news-section.jsx", "components/portfolio-summary.jsx", "components/portfolio-situation.jsx", "components/preference-settings.jsx", "components/profile-settings.jsx", "components/security-settings.jsx", "components/theme-provider.jsx", "components/stock-chart.jsx", "components/watchlist.jsx", "hooks/use-mobile.jsx", "hooks/use-toast.js", "lib/utils.js"],
   "exclude": ["node_modules"]
 }
