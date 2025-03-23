@@ -16,32 +16,47 @@ Ensure you have the following installed on your system before proceeding:
 - [Git](https://git-scm.com/)
 - A code editor (e.g., [VS Code](https://code.visualstudio.com/))
 
-## Installation
+## 📌 Installation & Usage  
 
-Clone the repository:
-```sh
-git clone https://github.com/NYT03/AU_hackthon_main.git
-cd AU_hackthon_main
-```
+### 🔹 Prerequisites  
+Make sure you have the following installed on your system:  
+- Python (if applicable)  
+- Node.js (if applicable)  
+- Required dependencies (listed in `requirements.txt` or `package.json`)  
 
-Install dependencies:
-```sh
-npm install --legacy-peer-deps
-```
+### 🔹 Installation  
+1. **Clone the Repository**  
+   ```sh
+   git clone https://github.com/NYT03/AU_hackthon_main.git
+   cd AU_hackthon_main
+   ```  
 
-## Usage
+2. **Install Dependencies**  
+   - If using Python:  
+     ```sh
+     pip install -r requirements.txt
+     ```  
+   - If using Node.js:  
+     ```sh
+     npm install
+     ```  
 
-Start the development server:
-```sh
-npm run dev
-```
+3. **Set Up Environment Variables**  
+   - Rename `.env.example` to `.env`  
+   - Update necessary credentials inside `.env`  
 
-Note: This project uses JSX files rather than TSX files.
+### 🔹 Usage  
+- To start the project, run:  
+  - If it's a Python app:  
+    ```sh
+    python main.py
+    ```  
+  - If it's a Node.js app:  
+    ```sh
+    npm start
+    ```  
 
-To build the project for production:
-```sh
-npm run build
-```
+- Open your browser and go to `http://localhost:PORT` (replace `PORT` with the correct value)  
 
 ## Features
 - Core functionalities for the hackathon project
