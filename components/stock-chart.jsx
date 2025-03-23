@@ -80,7 +80,7 @@ export default function StockChart() {
       </div>
       
       {/* Dashboard tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="grid grid-cols-2 gap-4">
+      <Tabs value={activeTab} onValueChange={setActiveTab} >
         <TabsList className="flex">
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="performance">Performance</TabsTrigger>
@@ -126,7 +126,7 @@ export default function StockChart() {
         
         {/* Performance Tab */}
         <TabsContent value="performance" className="space-y-8">
-          <div className="flex flex-col p-5">
+          <div className="flex flex-col p-5 gap-8">
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle>Portfolio Growth</CardTitle>
