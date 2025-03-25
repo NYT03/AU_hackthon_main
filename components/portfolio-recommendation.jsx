@@ -17,7 +17,7 @@ export default function PortfolioRecommendation() {
     const fetchInsights = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/get_investor_insights",
+          "https://agnetic-retail-investor-assistant.onrender.com/get_investor_insights",
           { user_id: userId },
           {
             headers: {

@@ -39,7 +39,7 @@ export default function ChatInterface() {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/chat",
+        "https://agnetic-retail-investor-assistant.onrender.com/chat",
         { prompt: userMessage.content },
         {
           headers: { "Content-Type": "application/json" },
