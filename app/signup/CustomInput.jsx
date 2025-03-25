@@ -15,6 +15,7 @@ const CustomInput = ({ label, placeholder, name, value, onChange, type = "text",
         onChange={onChange}
         className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
         required={required}
+        min="0"
       />
     </div>
   );

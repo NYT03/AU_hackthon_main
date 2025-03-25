@@ -289,6 +289,27 @@ export default function SignupPage() {
     e.preventDefault()
     setIsLoading(true)
 
+    // Validation for required fields
+    if (!formData.email || !formData.password || !formData.confirmPassword) {
+      toast({
+        variant: "destructive",
+        title: "Missing information",
+        description: "Please fill in all required fields.",
+      })
+      setIsLoading(false)
+      return
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      toast({
+        variant: "destructive",
+        title: "Passwords don't match",
+        description: "Please make sure your passwords match.",
+      })
+      setIsLoading(false)
+      return
+    }
+
     try {
       // Format the data according to your MongoDB schema
       const formattedData = {
@@ -392,22 +413,6 @@ export default function SignupPage() {
   const nextStep = () => {
     switch (currentStep) {
       case "accountSetup":
-        if (!formData.email || !formData.password || !formData.confirmPassword) {
-          toast({
-            variant: "destructive",
-            title: "Missing information",
-            description: "Please fill in all fields to continue.",
-          })
-          return
-        }
-        if (formData.password !== formData.confirmPassword) {
-          toast({
-            variant: "destructive",
-            title: "Passwords don't match",
-            description: "Please make sure your passwords match.",
-          })
-          return
-        }
         setCurrentStep("personalInfo")
         break
 

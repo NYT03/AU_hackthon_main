@@ -15,16 +15,16 @@ export default function NewsSection() {
 
   // Define topics with their API values and display names
   const topics = {
-    "blockchain": "Blockchain",
-    // "earnings": "Earnings",
-    // "ipo": "IPO",
+    // "blockchain": "Blockchain",
+    "earnings": "Earnings",
+    "ipo": "IPO",
     // "mergers_and_acquisitions": "Mergers & Acquisitions",
     // "financial_markets": "Financial Markets",
     // "economy_fiscal": "Economy - Fiscal Policy",
     // "economy_monetary": "Economy - Monetary Policy",
     // "economy_macro": "Economy - Macro/Overall",
     // "energy_transportation": "Energy & Transportation",
-    // "finance": "Finance"
+    "finance": "Finance"
   };
 
   useEffect(() => {

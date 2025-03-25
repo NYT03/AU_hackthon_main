@@ -1,11 +1,11 @@
 import {
-    CardHeader,
-    CardTitle,
-    CardDescription,
-    CardContent
-  } from "@/components/ui/card";
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function AccountSetup({ formData, handleChange }) {
   return (
@@ -19,7 +19,7 @@ export default function AccountSetup({ formData, handleChange }) {
       <CardContent>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email">Email <span className="text-red-500">*</span></Label>
             <Input
               id="email"
               name="email"
@@ -31,7 +31,7 @@ export default function AccountSetup({ formData, handleChange }) {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">Password <span className="text-red-500">*</span></Label>
             <Input
               id="password"
               name="password"
@@ -43,7 +43,7 @@ export default function AccountSetup({ formData, handleChange }) {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <Label htmlFor="confirmPassword">Confirm Password <span className="text-red-500">*</span></Label>
             <Input
               id="confirmPassword"
               name="confirmPassword"

@@ -26,22 +26,18 @@ export default function ChatInterface() {
     e.preventDefault()
     if (!input.trim()) return
 
-    // Add user message to chat with timestamp
     const userMessage = { 
       id: messages.length + 1,
       sender: "user",
       content: input,
       timestamp: new Date()
     }
-    console.log(userMessage.content)
-    setMessages((prev) => [...prev, userMessage])
     
-    // Clear input and set loading state
+    setMessages((prev) => [...prev, userMessage])
     setInput("")
     setLoading(true)
 
     try {
-      // Make API call to Agnetic endpoint using axios
       const response = await axios.post(
         "http://localhost:5000/api/chat",
         { prompt: userMessage.content },
@@ -52,20 +48,19 @@ export default function ChatInterface() {
 
       const data = response.data
       
-      // Add assistant message with both chat response, insights, and timestamp
+      const formattedContent = formatResponse(data.chat_response)
+      
       setMessages((prev) => [
         ...prev, 
         { 
           id: prev.length + 1,
           sender: "assistant",
-          content: data.chat_response,
-          insights: data.investment_insights,
+          content: formattedContent,
           timestamp: new Date()
         }
       ])
     } 
     catch (error) {
-      console.log("Error calling Agnetic API:", error.response ? error.response.data : error.message)
       setMessages((prev) => [
         ...prev,
         { 
@@ -80,11 +75,10 @@ export default function ChatInterface() {
     }
   }
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault()
-      handleSubmit(e)
-    }
+  const formatResponse = (text) => {
+    return text.replace(/\d+\.\s\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+               .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+               .replace(/\n/g, "<br />");
   }
 
   return (
@@ -103,15 +97,8 @@ export default function ChatInterface() {
                   className={`rounded-lg p-3 ${
                     message.sender === "user" ? "bg-primary text-primary-foreground" : "bg-muted"
                   }`}
-                >
-                  <p className="text-sm">{message.content}</p>
-                  <p className="text-xs opacity-70 mt-1">
-                    {message.timestamp.toLocaleTimeString([], {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </p>
-                </div>
+                  dangerouslySetInnerHTML={{ __html: message.content }}
+                />
               </div>
             </div>
           ))}
@@ -143,7 +130,6 @@ export default function ChatInterface() {
             placeholder="Ask about your investments..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
             disabled={loading}
             className="flex-1"
           />

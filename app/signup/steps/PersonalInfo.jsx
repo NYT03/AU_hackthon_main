@@ -73,6 +73,7 @@ export default function PersonalInfo({ formData, handleChange, handleSelectChang
               placeholder="0"
               value={formData.dependents}
               onChange={handleChange}
+              min="0"
             />
           </div>
           <div className="space-y-2">
@@ -84,6 +85,7 @@ export default function PersonalInfo({ formData, handleChange, handleSelectChang
               placeholder="5000"
               value={formData.monthlyIncome}
               onChange={handleChange}
+              min="0"
             />
           </div>
           <div className="space-y-2">
@@ -95,6 +97,7 @@ export default function PersonalInfo({ formData, handleChange, handleSelectChang
               placeholder="3000"
               value={formData.monthlyExpenses}
               onChange={handleChange}
+              min="0"
             />
           </div>
         </div>

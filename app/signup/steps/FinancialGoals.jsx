@@ -1,9 +1,33 @@
-import { CardHeader, CardContent, CardTitle, CardDescription } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import CustomInput from "../CustomInput"
+import { useState } from "react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import CustomInput from "../CustomInput";
 
-export default function FinancialGoals({ formData, handleChange }) {
+export default function FinancialGoals() {
+  const [formData, setFormData] = useState({
+    financial_goals: {
+      short_term: { goal: "", amount_needed: "", timeframe: "" },
+      medium_term: { goal: "", amount_needed: "", timeframe: "" },
+      long_term: { goal: "", amount_needed: "", timeframe: "" }
+    }
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => {
+      const keys = name.split("."); // Convert 'financial_goals.short_term.goal' to array
+      let updatedData = { ...prev };
+
+      let temp = updatedData;
+      for (let i = 0; i < keys.length - 1; i++) {
+        temp = temp[keys[i]];
+      }
+      temp[keys[keys.length - 1]] = value;
+      return { ...updatedData };
+    });
+  };
+
   return (
     <div className="space-y-6">
       <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 mb-6">
@@ -11,7 +35,7 @@ export default function FinancialGoals({ formData, handleChange }) {
           Define your financial goals over different time horizons to help us recommend appropriate investment strategies.
         </p>
       </div>
-      
+
       <div className="space-y-6">
         {/* Short Term Goals Section */}
         <div className="p-4 rounded-lg border border-gray-200">
@@ -43,7 +67,7 @@ export default function FinancialGoals({ formData, handleChange }) {
             />
           </div>
         </div>
-        
+
         {/* Medium Term Goals Section */}
         <div className="p-4 rounded-lg border border-gray-200">
           <h3 className="text-lg font-medium mb-4">Medium-Term Goals (3-7 years)</h3>
@@ -74,7 +98,7 @@ export default function FinancialGoals({ formData, handleChange }) {
             />
           </div>
         </div>
-        
+
         {/* Long Term Goals Section */}
         <div className="p-4 rounded-lg border border-gray-200">
           <h3 className="text-lg font-medium mb-4">Long-Term Goals (7+ years)</h3>
@@ -106,6 +130,9 @@ export default function FinancialGoals({ formData, handleChange }) {
           </div>
         </div>
       </div>
+      
+      {/* Debugging: Display form data */}
+      {/* <pre className="mt-6 p-4 bg-gray-100 rounded-lg text-sm">{JSON.stringify(formData, null, 2)}</pre> */}
     </div>
-  )
+  );
 }
